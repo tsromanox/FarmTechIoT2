@@ -15,7 +15,7 @@ void setup() {
   Serial.begin(115200);
   dht.begin();
 
-  pinMode(PHOSPHORUS_PIN, INPUT_PULLUP); // Ou INPUT_PULLDOWN se usar resistor interno
+  pinMode(PHOSPHORUS_PIN, INPUT_PULLUP); // Ou INPUT_PULLDOWN
   pinMode(POTASSIUM_PIN, INPUT_PULLUP);  // Ou INPUT_PULLDOWN
   // LDR_PIN é ADC, não precisa de pinMode para input analógico
   pinMode(RELAY_PIN, OUTPUT);
@@ -25,6 +25,8 @@ void setup() {
   digitalWrite(LED_PIN, LOW);   // LED desligado inicialmente
   Serial.println("Sistema de Irrigacao Inteligente FarmTech Solutions Inicializado");
 }
+
+
 
 void loop() {
   // Leitura do Sensor de Umidade (DHT22)
@@ -56,14 +58,19 @@ void loop() {
     Serial.print(" | Fosforo (P): "); Serial.print(phosphorus_present ? "Presente" : "Ausente");
     Serial.print(" | Potassio (K): "); Serial.print(potassium_present ? "Presente" : "Ausente");
 
-    // Lógica de Controle da Bomba (A SER DEFINIDA PELO GRUPO)
+    // Lógica de Controle da Bomba
     // Exemplo simples: Ligar a bomba se a umidade for menor que 60%
     bool activate_pump = false;
     if (humidity < 60.0 && humidity > 0) { // Adicionado humidity > 0 para evitar ligar com NaN
         activate_pump = true;
     }
 
-    // Outras condições (EXEMPLOS, A DEFINIR PELO GRUPO):
+    // Outras condições de ativação da bomba
+    // if (temperature > 30.0) activate_pump = true; // Exemplo: temperatura alta
+    // if (humidity < 50.0) activate_pump = true; // Exemplo: umidade baixa
+    // if (potassium_present) activate_pump = true; // Exemplo: Potássio presente
+    // if (ph_value < 6.0) activate_pump = true; // Exemplo: pH ácido
+    // if (ph_value > 7.5) activate_pump = true; // Exemplo: pH alcalino
     // if (ph_value < 5.0 || ph_value > 8.0) activate_pump = false; // Não irrigar se pH extremo
     // if (!phosphorus_present) activate_pump = false; // Não irrigar se faltar fósforo (exemplo)
 
